@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 import os
 from setuptools import setup, find_packages
-from glob import glob
+
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 classifiers = [
-    'Development Status :: 1 - Planning',
+    'Development Status :: 5 - Production/Stable',
     'Environment :: X11 Applications :: Qt',
     'Framework :: Twisted',
     'Intended Audience :: Developers',
@@ -31,8 +31,6 @@ setup(
     description='Twisted Qt Integration',
     long_description=read('README.rst'),
     url='https://github.com/sunu/qt5reactor',
-    #download_url='https://github.com/ghtdak/qtreactor/tarball/master/#egg-qt4reactor.1.6',
-    #scripts=glob("./bin/*"),
     packages=find_packages(),
     py_modules=['qt5reactor'],
     keywords=['Qt', 'twisted'],
