@@ -3,6 +3,12 @@ Qt5Reactor
 Using the QtReactor
 -------------------
 
+Install using pip
+
+::
+
+    pip install qt5reactor-fork
+
 Before running / importing any other Twisted code, invoke:
 
 ::
