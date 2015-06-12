@@ -17,13 +17,14 @@ classifiers = [
     'Programming Language :: Python :: 2',
     'Programming Language :: Python :: 2.6',
     'Programming Language :: Python :: 2.7',
+    'Programming Language :: Python :: 3',
     'Natural Language :: English',
     'Topic :: Software Development :: Libraries :: Python Modules'
 ]
 
 setup(
     name='qt5reactor-fork',
-    version='0.1',
+    version='0.2',
     license='MIT',
     classifiers=classifiers,
     author='Tarashish Mishra',

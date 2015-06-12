@@ -1,4 +1,4 @@
-Qt4Reactor
+Qt5Reactor
 
 Using the QtReactor
 -------------------
@@ -24,4 +24,22 @@ Testing
 
 ::
 
-   trial --reactor=pyqt5 [twisted] [twisted.test] [twisted.test.test_internet]
+   trial --reactor=qt5 [twisted] [twisted.test] [twisted.test.test_internet]
+
+Make sure the plugin directory is in path or in the current directory for
+reactor discovery to work.
+
+Testing on Python 3
+~~~~~~~~~~~~~~~~~~~
+
+``trial`` does not work on Python3 yet. Use Twisted's `Python 3 test runner`_ instead.
+
+.. _Python 3 test runner: https://twistedmatrix.com/trac/browser/trunk/admin/run-python3-tests
+
+Install the reactor before calling ``unittest.main()``.
+
+::
+
+    import qt5reactor
+    qt5reactor.install()
+    unittest.main(...)
