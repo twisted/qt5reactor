@@ -7,7 +7,7 @@ Install using pip
 
 ::
 
-    pip install qt5reactor-fork
+    pip install qt5reactor
 
 Before running / importing any other Twisted code, invoke:
 
