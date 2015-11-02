@@ -23,7 +23,7 @@ classifiers = [
 ]
 
 setup(
-    name='qt5reactor-fork',
+    name='qt5reactor',
     version='0.2',
     license='MIT',
     classifiers=classifiers,
