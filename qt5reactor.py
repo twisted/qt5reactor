@@ -325,6 +325,9 @@ class QtReactor(posixbase.PosixReactorBase):
             self._blockApp = QEventLoop()
         self.runReturn()
         self._blockApp.exec_()
+        if self.running:
+            self.stop()
+            self.runUntilCurrent()
 
     # def sigInt(self, *args):
     #     print('I received a sigint. BAIBAI')
