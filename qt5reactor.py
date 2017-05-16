@@ -305,12 +305,11 @@ class QtReactor(posixbase.PosixReactorBase):
         delay = max(delay, 1)
         if not fromqt:
             self.qApp.processEvents(QEventLoop.AllEvents, delay * 1000)
-        if self.timeout() is None:
-            timeout = 0.1
-        elif self.timeout() == 0:
-            timeout = 0
+        t = self.timeout()
+        if t is None:
+            timeout = 0.01
         else:
-            timeout = self.timeout()
+            timeout = min(t, 0.01)
         self._timer.setInterval(timeout * 1000)
         self._timer.start()
 
@@ -390,10 +389,6 @@ class QtEventReactor(QtReactor):
 
         if closed:
             self._disconnectSelectable(fd, closed, action == 'doRead')
-
-    def timeout(self):
-        t = super(QtEventReactor, self).timeout()
-        return min(t, 0.01)
 
     def iterate(self, delay=None):
         """
