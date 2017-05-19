@@ -97,21 +97,17 @@ Subsequent port by therve
 """
 
 import sys
-from zope.interface import implementer
+
+from PyQt5.QtCore import (
+    pyqtSignal, QCoreApplication, QEventLoop, QObject, QSocketNotifier, QTimer)
+from twisted.internet import posixbase
 from twisted.internet.interfaces import IReactorFDSet
 from twisted.python import log, runtime
-from twisted.internet import posixbase
-
-
-from PyQt5.QtCore import QSocketNotifier, QObject, QTimer, QCoreApplication
-from PyQt5.QtCore import QEventLoop, pyqtSignal
+from zope.interface import implementer
 
 
 class TwistedSocketNotifier(QObject):
-
-    """
-    Connection between an fd event and reader/writer callbacks.
-    """
+    """Connection between an fd event and reader/writer callbacks."""
 
     activated = pyqtSignal(int)
 
@@ -143,7 +139,7 @@ class TwistedSocketNotifier(QObject):
         # a reference to self.watcher
 
         def _read():
-            #Don't call me again, until the data has been read
+            # Don't call me again, until the data has been read
             self.notifier.setEnabled(False)
             why = None
             try:
@@ -159,6 +155,7 @@ class TwistedSocketNotifier(QObject):
                 self.notifier.setEnabled(True)
                 # Re enable notification following sucessfull read
             self.reactor._iterate(fromqt=True)
+
         log.callWithLogger(w, _read)
 
     def write(self, sock):
@@ -169,7 +166,6 @@ class TwistedSocketNotifier(QObject):
         def _write():
             why = None
             self.notifier.setEnabled(False)
-
             try:
                 why = w.doWrite()
             except:
@@ -180,6 +176,7 @@ class TwistedSocketNotifier(QObject):
             elif self.watcher:
                 self.notifier.setEnabled(True)
             self.reactor._iterate(fromqt=True)
+
         log.callWithLogger(w, _write)
 
 
@@ -194,7 +191,6 @@ class QtReactor(posixbase.PosixReactorBase):
         self._timer = QTimer()
         self._timer.setSingleShot(True)
         self._timer.timeout.connect(self.iterate_qt)
-
         if QCoreApplication.instance() is None:
             # Application Object has not been started yet
             self.qApp = QCoreApplication([])
@@ -212,22 +208,15 @@ class QtReactor(posixbase.PosixReactorBase):
         It takes care of adding it if  new or modifying it if already added
         for another state (read -> read/write for example).
         """
-
         if xer not in primary:
             primary[xer] = TwistedSocketNotifier(None, self, xer, type)
 
     def addReader(self, reader):
-        """
-        Add a FileDescriptor for notification of data available to read.
-        """
-
+        """Add a FileDescriptor for notification of data available to read."""
         self._add(reader, self._reads, QSocketNotifier.Read)
 
     def addWriter(self, writer):
-        """
-        Add a FileDescriptor for notification of data available to write.
-        """
-
+        """Add a FileDescriptor for notification of data available to write."""
         self._add(writer, self._writes, QSocketNotifier.Write)
 
     def _remove(self, xer, primary):
@@ -237,32 +226,21 @@ class QtReactor(posixbase.PosixReactorBase):
         It does the inverse job of _add, and also add a check in case of the fd
         has gone away.
         """
-
         if xer in primary:
             notifier = primary.pop(xer)
             notifier.shutdown()
 
     def removeReader(self, reader):
-        """
-        Remove a Selectable for notification of data available to read.
-        """
-
+        """Remove a Selectable for notification of data available to read."""
         self._remove(reader, self._reads)
 
     def removeWriter(self, writer):
-        """
-        Remove a Selectable for notification of data available to write.
-        """
-
+        """Remove a Selectable for notification of data available to write."""
         self._remove(writer, self._writes)
 
     def removeAll(self):
-        """
-        Remove all selectables, and return a list of them.
-        """
-
-        rv = self._removeAll(self._reads, self._writes)
-        return rv
+        """Remove all selectables, and return a list of them."""
+        return self._removeAll(self._reads, self._writes)
 
     def getReaders(self):
         return self._reads.keys()
@@ -281,10 +259,7 @@ class QtReactor(posixbase.PosixReactorBase):
         self._timer.start()
 
     def _iterate(self, delay=None, fromqt=False):
-        """
-        See twisted.internet.interfaces.IReactorCore.iterate.
-        """
-
+        """See twisted.internet.interfaces.IReactorCore.iterate."""
         self.runUntilCurrent()
         self.doIteration(delay, fromqt=fromqt)
 
@@ -294,10 +269,7 @@ class QtReactor(posixbase.PosixReactorBase):
         self.iterate(delay=delay, fromqt=True)
 
     def doIteration(self, delay=None, fromqt=False):
-        """
-        This method is called by a Qt timer or by network activity on a file descriptor
-        """
-
+        """This method is called by a Qt timer or by network activity on a file descriptor"""
         if not self.running and self._blockApp:
             self._blockApp.quit()
         self._timer.stop()
@@ -333,7 +305,6 @@ class QtReactor(posixbase.PosixReactorBase):
     #     print('I received a sigint. BAIBAI')
     #     posixbase.PosixReactorBase.sigInt()
     #
-    #
     # def sigTerm(self, *args):
     #     print('I received a sigterm. BAIBAI')
     #     posixbase.PosixReactorBase.sigTerm()
@@ -343,24 +314,17 @@ class QtReactor(posixbase.PosixReactorBase):
     #     posixbase.PosixReactorBase.sigBreak()
 
 
-
 class QtEventReactor(QtReactor):
     def __init__(self, *args, **kwargs):
         self._events = {}
         super(QtEventReactor, self).__init__()
 
     def addEvent(self, event, fd, action):
-        """
-        Add a new win32 event to the event loop.
-        """
-
+        """Add a new win32 event to the event loop."""
         self._events[event] = (fd, action)
 
     def removeEvent(self, event):
-        """
-        Remove an event.
-        """
-
+        """Remove an event."""
         if event in self._events:
             del self._events[event]
 
@@ -387,38 +351,29 @@ class QtEventReactor(QtReactor):
         except:
             closed = sys.exc_info()[1]
             log.deferr()
-
         if closed:
             self._disconnectSelectable(fd, closed, action == 'doRead')
 
     def iterate(self, delay=None, fromqt=False):
-        """
-        See twisted.internet.interfaces.IReactorCore.iterate.
-        """
-
+        """See twisted.internet.interfaces.IReactorCore.iterate."""
         self.runUntilCurrent()
         self.doEvents()
         self.doIteration(delay, fromqt=fromqt)
 
 
 def posixinstall():
-    """
-    Install the Qt reactor.
-    """
-
+    """Install the Qt reactor."""
     from twisted.internet.main import installReactor
     p = QtReactor()
     installReactor(p)
 
 
 def win32install():
-    """
-    Install the Qt reactor.
-    """
-
-    p = QtEventReactor()
+    """Install the Qt reactor."""
     from twisted.internet.main import installReactor
+    p = QtEventReactor()
     installReactor(p)
+
 
 if runtime.platform.getType() == 'win32':
     from win32event import CreateEvent, MsgWaitForMultipleObjects
