@@ -24,7 +24,7 @@ classifiers = [
 
 setup(
     name='qt5reactor',
-    version='0.3',
+    version='0.4',
     license='MIT',
     classifiers=classifiers,
     author='Christopher R. Wood',
