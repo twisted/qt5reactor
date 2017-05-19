@@ -6,12 +6,16 @@
 # Antoine Pitrou
 # Apple Computer, Inc.
 # Ashwini Oruganti
+# bakbuk
 # Benjamin Bruheim
 # Bob Ippolito
+# Burak Nehbit
 # Canonical Limited
 # Christopher Armstrong
+# Christopher R. Wood
 # David Reid
 # Donovan Preston
+# Elvis Stansvik
 # Eric Mangold
 # Eyal Lotem
 # Glenn Tarbox
@@ -30,6 +34,7 @@
 # Julian Berman
 # Kevin Horn
 # Kevin Turner
+# Kyle Altendorf
 # Laurens Van Houtven
 # Mary Gardiner
 # Matthew Lefkowitz
@@ -41,6 +46,7 @@
 # Richard Wall
 # Sean Riley
 # Software Freedom Conservancy
+# Tarashish Mishra
 # Travis B. Hartwell
 # Thijs Triemstra
 # Thomas Herve
