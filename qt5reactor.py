@@ -95,8 +95,10 @@ leave your Qt application running
 
 Qt5 Port: U{Burak Nehbit<mailto:burak@nehbit.net>}
 
-Maintainer: U{Glenn H Tarbox, PhD<mailto:glenn@tarbox.org>}
+Current maintainer: U{Christopher R. Wood<mailto:chris@leastauthority.com>}
 
+Previous maintainer: U{Tarashish Mishra<mailto:sunu@sunu.in>}
+Previous maintainer: U{Glenn H Tarbox, PhD<mailto:glenn@tarbox.org>}
 Previous maintainer: U{Itamar Shtull-Trauring<mailto:twisted@itamarst.org>}
 Original port to QT4: U{Gabe Rudy<mailto:rudy@goldenhelix.com>}
 Subsequent port by therve
