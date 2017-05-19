@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2001-2014
+# Copyright (c) 2001-2017
 # Allen Short
 # Andy Gayton
 # Andrew Bennetts
