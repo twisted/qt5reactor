@@ -73,7 +73,7 @@ This module provides support for Twisted to be driven by the Qt mainloop.
 In order to use this support, simply do the following::
     |  app = QApplication(sys.argv) # your code to init Qt
     |  import qt5reactor
-    |  qt4reactor.install()
+    |  qt5reactor.install()
 
 Then use twisted.internet APIs as usual.  The other methods here are not
 intended to be called directly.
