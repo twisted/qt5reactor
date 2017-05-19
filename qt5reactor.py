@@ -97,12 +97,10 @@ Subsequent port by therve
 """
 
 import sys
-import time
 from zope.interface import implementer
 from twisted.internet.interfaces import IReactorFDSet
 from twisted.python import log, runtime
 from twisted.internet import posixbase
-from twisted.python.runtime import platformType, platform
 
 
 from PyQt5.QtCore import QSocketNotifier, QObject, QTimer, QCoreApplication
