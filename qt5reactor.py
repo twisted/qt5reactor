@@ -286,13 +286,10 @@ class QtReactor(posixbase.PosixReactorBase):
         delay = max(delay, 1)
         if not fromqt:
             self.qApp.processEvents(QEventLoop.AllEvents, delay * 1000)
-        t = self.timeout()
-        if t is None:
-            timeout = 0.01
-        else:
-            timeout = min(t, 0.01)
-        self._timer.setInterval(timeout * 1000)
-        self._timer.start()
+        timeout = self.timeout()
+        if timeout is not None:
+            self._timer.setInterval(timeout * 1000)
+            self._timer.start()
 
     def runReturn(self, installSignalHandlers=True):
         self.startRunning(installSignalHandlers=installSignalHandlers)
