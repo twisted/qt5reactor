@@ -1,0 +1,2 @@
+include versioneer.py
+include src/qt5reactor/_version.py
