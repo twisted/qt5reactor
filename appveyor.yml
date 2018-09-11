@@ -7,7 +7,8 @@ environment:
     - TOXENV: dist
     - TOXENV: py35
     - TOXENV: py36
-    - TOXENV: py37
+#    Oh yeah, released Twisted doesn't support 3.7 yet.
+#    - TOXENV: py37
 
 # https://www.appveyor.com/docs/how-to/rdp-to-build-worker/
 init:
