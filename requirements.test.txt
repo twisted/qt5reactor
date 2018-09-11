@@ -1,12 +1,27 @@
-atomicwrites==1.1.5
-attrs==18.1.0
--e .[test]
+atomicwrites==1.2.1
+attrs==18.2.0
+Automat==0.7.0
+constantly==15.1.0
 coverage==4.5.1
-future==0.16.0
+decorator==4.3.0
+greenlet==0.4.15
+hyperlink==18.0.0
+idna==2.7
+incremental==17.5.0
 more-itertools==4.3.0
 pluggy==0.7.1
-py==1.5.4
-pytest==3.7.2
+py==1.6.0
+PyHamcrest==1.9.0
+PyQt5==5.11.2
+PyQt5-sip==4.19.12
+pytest==3.8.0
+pytest-cov==2.6.0
+pytest-twisted==1.8
+-e .[test]
 six==1.11.0
 tox==3.2.1
+Twisted==18.7.0; platform_system != "Windows" and platform_system != "Darwin"
+Twisted[osx_platform]==18.7.0; platform_system == "Darwin"
+Twisted[windows_platform]==18.7.0; platform_system == "Windows"
 virtualenv==16.0.0
+zope.interface==4.5.0
