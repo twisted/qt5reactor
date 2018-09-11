@@ -1,8 +1,6 @@
 skip_branch_with_pr: true
 
 environment:
-  VENV: "%APPVEYOR_BUILD_FOLDER%\\venv"
-
   matrix:
     - PYTHON_VERSION: 3.6
       TOXENV: dist
@@ -20,8 +18,9 @@ init:
   - echo "TOXENV- %TOXENV%"
 
 install:
-  - py -"%PYTHON_VERSION%" -m venv "%VENV%"
-  - "%VENV%\\Scripts\\activate"
+  - echo %PYTHON_VERSION%
+  - py -%PYTHON_VERSION% -m venv venv
+  - venv\\Scripts\\activate
   - python -c "import sys; print(sys.version)"
   - pip install -r requirements.tox.txt
   - ps: Update-AppveyorBuild -Version "v$(python get_version.py) b$Env:APPVEYOR_BUILD_NUMBER"
