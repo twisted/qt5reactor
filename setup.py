@@ -45,7 +45,7 @@ setup(
             "pytest",
             "pytest-cov",
             "pytest-twisted",
-            "tox",
+            "tox>=3.1",
         ],
     },
 )
