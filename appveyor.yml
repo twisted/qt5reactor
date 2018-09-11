@@ -4,7 +4,8 @@ environment:
   VENV: "%APPVEYOR_BUILD_FOLDER%\\venv"
 
   matrix:
-    - TOXENV: dist
+    - PYTHON_VERSION: 3.6
+      TOXENV: dist
 #    AppVeyor provides 3.5.3 presently but PyQt5 needs 3.5.4+
 #    https://help.appveyor.com/discussions/questions/26099-update-python-35
 #    https://www.riverbankcomputing.com/pipermail/pyqt/2018-July/040514.html
@@ -19,7 +20,7 @@ init:
   - echo "TOXENV- %TOXENV%"
 
 install:
-  - py -3.7 -m venv "%VENV%"
+  - py -%PYTHON_VERSION% -m venv "%VENV%"
   - "%VENV%\\Scripts\\activate"
   - python -c "import sys; print(sys.version)"
   - pip install -r requirements.tox.txt
