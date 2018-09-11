@@ -18,7 +18,6 @@ init:
   - echo "TOXENV- %TOXENV%"
 
 install:
-  - echo %PYTHON_VERSION%
   - py -%PYTHON_VERSION% -m venv venv
   - venv\\Scripts\\activate
   - python -c "import sys; print(sys.version)"
