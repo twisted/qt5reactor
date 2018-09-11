@@ -5,7 +5,10 @@ environment:
 
   matrix:
     - TOXENV: dist
-    - TOXENV: py35
+#    AppVeyor provides 3.5.3 presently but PyQt5 needs 3.5.4+
+#    https://help.appveyor.com/discussions/questions/26099-update-python-35
+#    https://www.riverbankcomputing.com/pipermail/pyqt/2018-July/040514.html
+#    - TOXENV: py35
     - TOXENV: py36
 #    Oh yeah, released Twisted doesn't support 3.7 yet.
 #    - TOXENV: py37
