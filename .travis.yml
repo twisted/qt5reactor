@@ -1,0 +1,21 @@
+language: python
+
+matrix:
+  include:
+    - python: 3.7
+      dist: xenial
+      sudo: true
+      env: TOXENV=dist
+    - python: 3.5
+    - python: 3.6
+    - python: 3.7
+      dist: xenial
+      sudo: true
+
+install:
+  - pip install tox-travis
+  - pip install -r requirements.tox.txt
+
+script:
+  - tox
+  - tox -e codecov

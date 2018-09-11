@@ -32,8 +32,17 @@ setup(
     description='Twisted Qt Integration',
     long_description=read('README.rst'),
     url='https://github.com/sunu/qt5reactor',
-    packages=find_packages(),
-    py_modules=['qt5reactor'],
+    packages=find_packages("src"),
+    package_dir={"": "src"},
     keywords=['Qt', 'twisted'],
-    install_requires=['twisted']
+    install_requires=['pyqt5', 'twisted'],
+    extras_require={
+        "test": [
+            "coverage",
+            "pytest",
+            "pytest-cov",
+            "pytest-twisted",
+            "tox",
+        ],
+    },
 )
