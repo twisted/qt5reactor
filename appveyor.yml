@@ -2,16 +2,10 @@ skip_branch_with_pr: true
 
 environment:
   matrix:
-    - PYTHON_VERSION: 3.6
-      TOXENV: dist
-#    AppVeyor provides 3.5.3 presently but PyQt5 needs 3.5.4+
-#    https://help.appveyor.com/discussions/questions/26099-update-python-35
-#    https://www.riverbankcomputing.com/pipermail/pyqt/2018-July/040514.html
-#    - TOXENV: py35
-    - PYTHON_VERSION: 3.6
-      TOXENV: py36
-#    Oh yeah, released Twisted doesn't support 3.7 yet.
-#    - TOXENV: py37
+    - TOXENV: dist
+    - TOXENV: py35
+    - TOXENV: py36
+    - TOXENV: py37
 
 # https://www.appveyor.com/docs/how-to/rdp-to-build-worker/
 init:
@@ -19,7 +13,7 @@ init:
   - echo "TOXENV- %TOXENV%"
 
 install:
-  - py -%PYTHON_VERSION% -m venv venv
+  - py -3.7 -m venv venv
   - venv\\Scripts\\activate
   - python -c "import sys; print(sys.version)"
   - pip install -r requirements.tox.txt

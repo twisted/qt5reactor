@@ -20,8 +20,8 @@ pytest-twisted==1.8
 -e .[test]
 six==1.11.0
 tox==3.2.1
-Twisted==18.7.0; platform_system != "Windows" and platform_system != "Darwin"
-Twisted[osx_platform]==18.7.0; platform_system == "Darwin"
-Twisted[windows_platform]==18.7.0; platform_system == "Windows"
+Twisted==18.9.0rc1; platform_system != "Windows" and platform_system != "Darwin"
+Twisted[osx_platform]==18.9.0rc1; platform_system == "Darwin"
+Twisted[windows_platform]==18.9.0rc1; platform_system == "Windows"
 virtualenv==16.0.0
 zope.interface==4.5.0
