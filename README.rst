@@ -1,4 +1,29 @@
 Qt5Reactor
+==========
+
+|PyPI| |Pythons| |Travis| |AppVeyor| |GitHub|
+
+
+.. |PyPI| image:: https://img.shields.io/pypi/v/qt5reactor.svg
+   :alt: PyPI version
+   :target: https://pypi.org/project/qt5reactor/
+
+.. |Pythons| image:: https://img.shields.io/pypi/pyversions/qt5reactor.svg
+   :alt: supported Python versions
+   :target: https://pypi.org/project/qt5reactor/
+
+.. |Travis| image:: https://travis-ci.org/sunu/qt5reactor.svg?branch=master
+   :alt: Travis build status
+   :target: https://travis-ci.org/sunu/qt5reactor
+
+.. |AppVeyor| image:: https://ci.appveyor.com/api/projects/status/50haxti1yjugdpya/branch/master?svg=true
+   :alt: AppVeyor build status
+   :target: https://ci.appveyor.com/project/sunu/qt5reactor
+
+.. |GitHub| image:: https://img.shields.io/github/last-commit/sunu/qt5reactor/master.svg
+   :alt: source on GitHub
+   :target: https://github.com/sunu/qt5reactor
+
 
 Using the QtReactor
 -------------------
