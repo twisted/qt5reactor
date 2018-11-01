@@ -1,45 +1,45 @@
 version: 2
 
+job_template: &job_template
+  steps:
+    - checkout
+
+    - run: &run_prepare
+        name: Prepare
+        command: |
+          python --version
+          pip --version
+          pip install tox
+    - run: &run_test
+        name: Test
+        command: |
+          tox
+          tox -e codecov
+
 jobs:
-  template: &template
-    steps:
-      - checkout
-
-      - run: &run_prepare
-          name: Prepare
-          command: |
-            python --version
-            pip --version
-            pip install tox
-      - run: &run_test
-          name: Test
-          command: |
-            tox
-            tox -e codecov
-
   linux-py35:
-    <<: *template
+    <<: *job_template
     docker:
       - image: circleci/python:3.5
     environment:
       TOXENV=py35
 
   linux-py36:
-    <<: *template
+    <<: *job_template
     docker:
       - image: circleci/python:3.6
     environment:
       TOXENV=py36
 
   linux-py37:
-    <<: *template
+    <<: *job_template
     docker:
       - image: circleci/python:3.7
     environment:
       TOXENV=py37
 
   osx-template: &osx-template
-    <<: *template
+    <<: *job_template
     macos:
       xcode: "10.0.0"
     steps:
