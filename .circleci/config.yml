@@ -1,0 +1,79 @@
+version: 2
+
+jobs:
+  template: &template
+    steps:
+      - checkout
+
+      - run: &run_prepare
+          name: Prepare
+          command: |
+            python --version
+            pip --version
+            pip install tox
+      - run: &run_test
+          name: Test
+          command: |
+            tox
+            tox -e codecov
+
+  linux-py35:
+    <<: *template
+    docker:
+      - image: circleci/python:3.5
+    environment:
+      TOXENV=py35
+
+  linux-py36:
+    <<: *template
+    docker:
+      - image: circleci/python:3.6
+    environment:
+      TOXENV=py36
+
+  linux-py37:
+    <<: *template
+    docker:
+      - image: circleci/python:3.7
+    environment:
+      TOXENV=py37
+
+  osx-template: &osx-template
+    <<: *template
+    macos:
+      xcode: "10.0.0"
+    steps:
+      - run:
+          name: OSX Prepare
+          command: |
+            brew install readline xz pyenv
+            python pyenvinstall.py
+            echo 'export PATH=~/.pyenv/shims:$PATH' >> $BASH_ENV
+      - *run_prepare
+      - *run_test
+
+  osx-py35:
+    <<: *osx-template
+    environment:
+      TOXENV=py35
+
+  osx-py36:
+    <<: *osx-template
+    environment:
+      TOXENV=py36
+
+  osx-py37:
+    <<: *osx-template
+    environment:
+      TOXENV=py37
+
+workflows:
+  version: 2
+  all:
+    jobs:
+      - linux-py35
+      - linux-py36
+      - linux-py37
+      - osx-py35
+      - osx-py36
+      - osx-py37
