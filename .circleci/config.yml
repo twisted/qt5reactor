@@ -1,47 +1,80 @@
 version: 2.1
 
 aliases:
-  - &run_prepare
-    run:
-      name: Prepare
-      command: |
-        python3 --version
-        python3 -m pip --version
-        python3 -m pip install -q --user --ignore-installed --upgrade virtualenv
-        python3 -m virtualenv venv
-        venv/bin/python -m pip install --upgrade pip
-        venv/bin/python -m pip freeze
-        venv/bin/python --version
-        venv/bin/pip --version
-        venv/bin/pip install tox
-  - &run_test
-    run:
-      name: Test
-      command: |
-        venv/bin/tox
-        venv/bin/tox -e codecov
-  - &restore_brew_pyenv
-    restore_cache:
-      keys:
-        - brew_pyenv-{{ checksum "pyenv_python_version" }}
-  - &cache_brew_pyenv
-    save_cache:
-      key: brew_pyenv-{{ checksum "pyenv_python_version" }}
-      paths:
-        - "~/.pyenv"
-        - "/usr/local/Homebrew"
-  - &linux_job
+  - &parameters
+    parameters:
+      pyenv_python_version:
+        type: string
+      python_version:
+        type: string
+      toxenv:
+        type: string
+
+  - &py35_arguments
+      pyenv_python_version: "3.5.6"
+      python_version: "3.5"
+      toxenv: "py35"
+
+  - &py36_arguments
+      pyenv_python_version: "3.6.7"
+      python_version: "3.6"
+      toxenv: "py36"
+
+  - &py37_arguments
+      pyenv_python_version: "3.7.1"
+      python_version: "3.7"
+      toxenv: "py37"
+
+
+commands:
+  run_prepare:
+    steps:
+      - run:
+          name: Prepare
+          command: |
+            python3 --version
+            python3 -m pip --version
+            python3 -m pip install -q --user --ignore-installed --upgrade virtualenv
+            python3 -m virtualenv venv
+            venv/bin/python -m pip install --upgrade pip
+            venv/bin/python -m pip freeze
+            venv/bin/python --version
+            venv/bin/pip --version
+            venv/bin/pip install tox
+
+  run_test:
+    steps:
+      - run:
+          name: Test
+          command: |
+            venv/bin/tox
+            venv/bin/tox -e codecov
+
+  restore_brew_pyenv:
+    steps:
+      - restore_cache:
+          keys:
+            - brew_pyenv-{{ checksum "pyenv_python_version" }}
+
+  cache_brew_pyenv:
+    steps:
+      - save_cache:
+          key: brew_pyenv-{{ checksum "pyenv_python_version" }}
+          paths:
+            - "~/.pyenv"
+            - "/usr/local/Homebrew"
+
+  linux_steps:
     steps:
       - checkout
-      - *run_prepare
-      - *run_test
-  - &osx_job
-    macos:
-      xcode: "10.0.0"
+      - run_prepare
+      - run_test
+
+  osx_steps:
     steps:
       - checkout
       - run: echo $PYENV_PYTHON_VERSION > pyenv_python_version # https://discuss.circleci.com/t/cannot-use-circle-yml-environment-variables-in-cache-keys/10994
-      - *restore_brew_pyenv
+      - restore_brew_pyenv
       - run:
           name: OSX Prepare
           command: |
@@ -49,61 +82,62 @@ aliases:
             pyenv install --skip-existing $PYENV_PYTHON_VERSION
             pyenv global $PYENV_PYTHON_VERSION
             echo 'export PATH=~/.pyenv/shims:$PATH' >> $BASH_ENV
-      - *cache_brew_pyenv
-      - *run_prepare
-      - *run_test
-  - &py35_environment
+      - cache_brew_pyenv
+      - run_prepare
+      - run_test
+
+
+executors:
+  linux_executor:
+    <<: *parameters
+    docker:
+      - image: circleci/python:<< parameters.python_version >>
     environment:
-      TOXENV: py35
-      PYENV_PYTHON_VERSION: 3.5.6
-  - &py36_environment
-    environment:
-      TOXENV: py36
-      PYENV_PYTHON_VERSION: 3.6.7
-  - &py37_environment
-    environment:
-      TOXENV: py37
-      PYENV_PYTHON_VERSION: 3.7.1
+      TOXENV: << parameters.toxenv >>
+      PYENV_PYTHON_VERSION: << parameters.pyenv_python_version >>
+
+  osx_executor:
+    <<: *parameters
+    macos:
+      xcode: "10.0.0"
 
 
 jobs:
-  linux-py35:
-    <<: *linux_job
-    <<: *py35_environment
-    docker:
-      - image: circleci/python:3.5
+  linux:
+    <<: *parameters
+    executor:
+      name: linux_executor
+      pyenv_python_version: << parameters.pyenv_python_version >>
+      python_version: << parameters.python_version >>
+      toxenv: << parameters.toxenv >>
+    steps:
+      - linux_steps
 
-  linux-py36:
-    <<: *linux_job
-    <<: *py36_environment
-    docker:
-      - image: circleci/python:3.6
+  osx:
+    <<: *parameters
+    executor:
+      name: osx_executor
+      pyenv_python_version: << parameters.pyenv_python_version >>
+      python_version: << parameters.python_version >>
+      toxenv: << parameters.toxenv >>
+    steps:
+      - osx_steps
 
-  linux-py37:
-    <<: *linux_job
-    <<: *py37_environment
-    docker:
-      - image: circleci/python:3.7
-
-  osx-py35:
-    <<: *osx_job
-    <<: *py35_environment
-
-  osx-py36:
-    <<: *osx_job
-    <<: *py36_environment
-
-  osx-py37:
-    <<: *osx_job
-    <<: *py37_environment
 
 workflows:
   version: 2
+
   all:
     jobs:
-      - linux-py35
-      - linux-py36
-      - linux-py37
-      - osx-py35
-      - osx-py36
-      - osx-py37
+      - linux:
+          <<: *py35_arguments
+      - linux:
+          <<: *py36_arguments
+      - linux:
+          <<: *py37_arguments
+      - osx:
+          <<: *py35_arguments
+      - osx:
+          <<: *py36_arguments
+      - osx:
+          <<: *py37_arguments
