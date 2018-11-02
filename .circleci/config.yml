@@ -39,8 +39,8 @@ aliases:
     macos:
       xcode: "10.0.0"
     steps:
-      - run: echo $TOXENV > toxenv
       - checkout
+      - run: echo $TOXENV > toxenv
       - *restore_brew_pyenv
       - run:
           name: OSX Prepare
