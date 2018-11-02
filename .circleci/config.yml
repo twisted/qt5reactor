@@ -23,10 +23,10 @@ aliases:
   - &restore_brew_pyenv
     restore_cache:
       keys:
-        - brew_pyenv-{{ .Environment.PYENV_PYTHON_VERSION }}
+        - brew_pyenv-{{ checksum "pyenv_python_version" }}
   - &cache_brew_pyenv
     save_cache:
-      key: brew_pyenv-{{ .Environment.PYENV_PYTHON_VERSION }}
+      key: brew_pyenv-{{ checksum "pyenv_python_version" }}
       paths:
         - "~/.pyenv"
         - "/usr/local/Homebrew"
@@ -40,6 +40,7 @@ aliases:
       xcode: "10.0.0"
     steps:
       - checkout
+      - run: echo $PYENV_PYTHON_VERSION > pyenv_python_version # https://discuss.circleci.com/t/cannot-use-circle-yml-environment-variables-in-cache-keys/10994
       - *restore_brew_pyenv
       - run:
           name: OSX Prepare
@@ -51,46 +52,50 @@ aliases:
       - *cache_brew_pyenv
       - *run_prepare
       - *run_test
+  - &py35_environment
+    environment:
+      TOXENV: py35
+      PYENV_PYTHON_VERSION: 3.5.6
+  - &py36_environment
+    environment:
+      TOXENV: py36
+      PYENV_PYTHON_VERSION: 3.6.7
+  - &py37_environment
+    environment:
+      TOXENV: py37
+      PYENV_PYTHON_VERSION: 3.7.1
+
 
 jobs:
   linux-py35:
     <<: *linux_job
+    <<: *py35_environment
     docker:
       - image: circleci/python:3.5
-    environment:
-      TOXENV: py35
 
   linux-py36:
     <<: *linux_job
+    <<: *py36_environment
     docker:
       - image: circleci/python:3.6
-    environment:
-      TOXENV: py36
 
   linux-py37:
     <<: *linux_job
+    <<: *py37_environment
     docker:
       - image: circleci/python:3.7
-    environment:
-      TOXENV: py37
 
   osx-py35:
     <<: *osx_job
-    environment:
-      TOXENV: py35
-      PYENV_PYTHON_VERSION: 3.5.6
+    <<: *py35_environment
 
   osx-py36:
     <<: *osx_job
-    environment:
-      TOXENV: py36
-      PYENV_PYTHON_VERSION: 3.6.7
+    <<: *py36_environment
 
   osx-py37:
     <<: *osx_job
-    environment:
-      TOXENV: py37
-      PYENV_PYTHON_VERSION: 3.7.1
+    <<: *py37_environment
 
 workflows:
   version: 2
