@@ -80,7 +80,7 @@ executors:
       xcode: "10.0.0"
     environment:
       TOXENV: << parameters.toxenv >>
-      PATH: "~/.pyenv/shims:#$PATH"
+      PATH: "~/.pyenv/shims:$PATH"
 
 
 jobs:
