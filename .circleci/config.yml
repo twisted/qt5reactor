@@ -5,6 +5,7 @@ aliases:
     parameters:
       pyenv_python_version:
         type: string
+        default: ">unspecified<"
       python_version:
         type: string
       toxenv:
@@ -83,7 +84,6 @@ executors:
       - image: circleci/python:<< parameters.python_version >>
     environment:
       TOXENV: << parameters.toxenv >>
-      PYENV_PYTHON_VERSION: << parameters.pyenv_python_version >>
 
   osx_executor:
     <<: *parameters
@@ -91,7 +91,6 @@ executors:
       xcode: "10.0.0"
     environment:
       TOXENV: << parameters.toxenv >>
-      PYENV_PYTHON_VERSION: << parameters.pyenv_python_version >>
 
 
 jobs:
@@ -99,7 +98,6 @@ jobs:
     <<: *parameters
     executor:
       name: linux_executor
-      pyenv_python_version: << parameters.pyenv_python_version >>
       python_version: << parameters.python_version >>
       toxenv: << parameters.toxenv >>
     steps:
@@ -112,19 +110,18 @@ jobs:
     <<: *parameters
     executor:
       name: osx_executor
-      pyenv_python_version: << parameters.pyenv_python_version >>
       python_version: << parameters.python_version >>
       toxenv: << parameters.toxenv >>
     steps:
       - checkout
-      - run: echo $PYENV_PYTHON_VERSION > pyenv_python_version # https://discuss.circleci.com/t/cannot-use-circle-yml-environment-variables-in-cache-keys/10994
+      - run: echo << parameters.pyenv_python_version >> > pyenv_python_version # https://discuss.circleci.com/t/cannot-use-circle-yml-environment-variables-in-cache-keys/10994
       - restore_brew_pyenv
       - run:
           name: OSX Prepare
           command: |
             brew install readline xz pyenv
-            pyenv install --skip-existing $PYENV_PYTHON_VERSION
-            pyenv global $PYENV_PYTHON_VERSION
+            pyenv install --skip-existing << parameters.pyenv_python_version >>
+            pyenv global << parameters.pyenv_python_version >>
             echo 'export PATH=~/.pyenv/shims:$PATH' >> $BASH_ENV
       - cache_brew_pyenv
       - run_prepare
