@@ -20,15 +20,16 @@ aliases:
       command: |
         venv/bin/tox
         venv/bin/tox -e codecov
-  - &restore_cache
+  - &restore_brew_pyenv
     restore_cache:
       keys:
-        - pyenv
-  - &save_cache
+        - brew_pyenv
+  - &cache_brew_pyenv
     save_cache:
-      key: pyenv
+      key: brew_pyenv
       paths:
         - "~/.pyenv"
+        - "/usr/local/Homebrew"
   - &linux_job
     steps:
       - checkout
@@ -39,14 +40,14 @@ aliases:
       xcode: "10.0.0"
     steps:
       - checkout
-      - *restore_cache
+      - *restore_brew_pyenv
       - run:
           name: OSX Prepare
           command: |
             brew install readline xz pyenv
             python3 .circleci/pyenvinstall.py
             echo 'export PATH=~/.pyenv/shims:$PATH' >> $BASH_ENV
-      - *save_cache
+      - *cache_brew_pyenv
       - *run_prepare
       - *run_test
 
