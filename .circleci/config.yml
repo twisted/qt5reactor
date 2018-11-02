@@ -60,39 +60,39 @@ jobs:
     docker:
       - image: circleci/python:3.5
     environment:
-      TOXENV=py35
+      TOXENV: py35
 
   linux-py36:
     <<: *linux_job
     docker:
       - image: circleci/python:3.6
     environment:
-      TOXENV=py36
+      TOXENV: py36
 
   linux-py37:
     <<: *linux_job
     docker:
       - image: circleci/python:3.7
     environment:
-      TOXENV=py37
+      TOXENV: py37
 
   osx-py35:
     <<: *osx_job
     environment:
-      TOXENV=py35
-      $PYENV_PYTHON_VERSION=3.5.6
+      TOXENV: py35
+      PYENV_PYTHON_VERSION: 3.5.6
 
   osx-py36:
     <<: *osx_job
     environment:
-      TOXENV=py36
-      $PYENV_PYTHON_VERSION=3.6.7
+      TOXENV: py36
+      PYENV_PYTHON_VERSION: 3.6.7
 
   osx-py37:
     <<: *osx_job
     environment:
-      TOXENV=py37
-      $PYENV_PYTHON_VERSION=3.7.1
+      TOXENV: py37
+      PYENV_PYTHON_VERSION: 3.7.1
 
 workflows:
   version: 2
