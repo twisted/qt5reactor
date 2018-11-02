@@ -23,10 +23,14 @@ aliases:
   - &restore_brew_pyenv
     restore_cache:
       keys:
-        - brew_pyenv
+        - brew_pyenv-{{ checksum "brew_pyenv_checksum" }}
+        - brew_pyenv-
   - &cache_brew_pyenv
+    run:
+      name: Build brew/pyenv checksum
+      command: "ls -laR ~/.pyenv /usr/local/Homebrew > brew_pyenv_checksum"
     save_cache:
-      key: brew_pyenv
+      key: brew_pyenv-{{ checksum "brew_pyenv_checksum" }}
       paths:
         - "~/.pyenv"
         - "/usr/local/Homebrew"
