@@ -7,10 +7,10 @@ job_template: &job_template
     - run: &run_prepare
         name: Prepare
         command: |
-          $PYTHON --version
-          $PYTHON -m pip --version
-          $PYTHON -m pip install -q --user --ignore-installed --upgrade virtualenv
-          $PYTHON -m virtualenv venv
+          python3 --version
+          python3 -m pip --version
+          python3 -m pip install -q --user --ignore-installed --upgrade virtualenv
+          python3 -m virtualenv venv
           venv/bin/python -m pip install --upgrade pip
           venv/bin/python -m pip freeze
           venv/bin/python --version
