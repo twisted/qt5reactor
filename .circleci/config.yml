@@ -74,7 +74,7 @@ commands:
   store_dist:
     steps:
       - store_artifacts:
-          path: "dist/*"
+          path: dist/
 
 
 executors:
