@@ -23,10 +23,10 @@ aliases:
   - &restore_brew_pyenv
     restore_cache:
       keys:
-        - brew_pyenv-{{ checksum "toxenv" }}
+        - brew_pyenv-{{ checksum "pyenv_python_version" }}
   - &cache_brew_pyenv
     save_cache:
-      key: brew_pyenv-{{ checksum "toxenv" }}
+      key: brew_pyenv-{{ checksum "pyenv_python_version" }}
       paths:
         - "~/.pyenv"
         - "/usr/local/Homebrew"
@@ -40,13 +40,14 @@ aliases:
       xcode: "10.0.0"
     steps:
       - checkout
-      - run: echo $TOXENV > toxenv
+      - run: echo $PYENV_PYTHON_VERSION > pyenv_python_version
       - *restore_brew_pyenv
       - run:
           name: OSX Prepare
           command: |
             brew install readline xz pyenv
-            python3 .circleci/pyenvinstall.py
+            pyenv install --skip-existing $PYENV_PYTHON_VERSION
+            pyenv global $PYENV_PYTHON_VERSION
             echo 'export PATH=~/.pyenv/shims:$PATH' >> $BASH_ENV
       - *cache_brew_pyenv
       - *run_prepare
@@ -78,16 +79,19 @@ jobs:
     <<: *osx_job
     environment:
       TOXENV=py35
+      $PYENV_PYTHON_VERSION=3.5.6
 
   osx-py36:
     <<: *osx_job
     environment:
       TOXENV=py36
+      $PYENV_PYTHON_VERSION=3.6.7
 
   osx-py37:
     <<: *osx_job
     environment:
       TOXENV=py37
+      $PYENV_PYTHON_VERSION=3.7.1
 
 workflows:
   version: 2
