@@ -136,14 +136,20 @@ workflows:
   all:
     jobs:
       - linux:
+          name: linux-py35
           <<: *py35_arguments
       - linux:
+          name: linux-py36
           <<: *py36_arguments
       - linux:
+          name: linux-py37
           <<: *py37_arguments
       - osx:
+          name: osx-py35
           <<: *py35_arguments
       - osx:
+          name: osx-py36
           <<: *py36_arguments
       - osx:
+          name: osx-py37
           <<: *py37_arguments
