@@ -18,7 +18,7 @@ aliases:
     command: |
       venv/bin/tox
       venv/bin/tox -e codecov
-  linux_job: @linux_job
+  linux_job: &linux_job
     steps:
       - checkout
       - *run_prepare
