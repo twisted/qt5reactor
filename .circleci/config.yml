@@ -23,10 +23,10 @@ aliases:
   - &restore_brew_pyenv
     restore_cache:
       keys:
-        - brew_pyenv-$PYENV_PYTHON_VERSION
+        - brew_pyenv-{{ .Environment.PYENV_PYTHON_VERSION }}
   - &cache_brew_pyenv
     save_cache:
-      key: brew_pyenv-$PYENV_PYTHON_VERSION
+      key: brew_pyenv-{{ .Environment.PYENV_PYTHON_VERSION }}
       paths:
         - "~/.pyenv"
         - "/usr/local/Homebrew"
@@ -40,8 +40,6 @@ aliases:
       xcode: "10.0.0"
     steps:
       - checkout
-      - run: echo $PYENV_PYTHON_VERSION > pyenv_python_version
-      - run: cat pyenv_python_version
       - *restore_brew_pyenv
       - run:
           name: OSX Prepare
