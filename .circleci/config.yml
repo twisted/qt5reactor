@@ -57,20 +57,6 @@ commands:
             venv/bin/tox
             venv/bin/tox -e codecov
 
-  restore_brew_pyenv:
-    steps:
-      - restore_cache:
-          keys:
-            - brew_pyenv-{{ checksum "pyenv_python_version" }}
-
-  cache_brew_pyenv:
-    steps:
-      - save_cache:
-          key: brew_pyenv-{{ checksum "pyenv_python_version" }}
-          paths:
-            - "~/.pyenv"
-            - "/usr/local/Homebrew"
-
   store_dist:
     steps:
       - store_artifacts:
@@ -114,8 +100,9 @@ jobs:
       toxenv: << parameters.toxenv >>
     steps:
       - checkout
-      - run: echo << parameters.pyenv_python_version >> > pyenv_python_version # https://discuss.circleci.com/t/cannot-use-circle-yml-environment-variables-in-cache-keys/10994
-      - restore_brew_pyenv
+      - restore_cache:
+          keys:
+            - brew_pyenv-<< parameters.pyenv_python_version >>
       - run:
           name: OSX Prepare
           command: |
@@ -123,7 +110,11 @@ jobs:
             pyenv install --skip-existing << parameters.pyenv_python_version >>
             pyenv global << parameters.pyenv_python_version >>
             echo 'export PATH=~/.pyenv/shims:$PATH' >> $BASH_ENV
-      - cache_brew_pyenv
+      - save_cache:
+          key: brew_pyenv-<< parameters.pyenv_python_version >>
+          paths:
+            - "~/.pyenv"
+            - "/usr/local/Homebrew"
       - run_prepare
       - run_test
       - store_dist
