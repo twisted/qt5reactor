@@ -75,30 +75,6 @@ commands:
       - store_artifacts:
           path: "dist/*"
 
-  linux_steps:
-    steps:
-      - checkout
-      - run_prepare
-      - run_test
-      - store_dist
-
-  osx_steps:
-    steps:
-      - checkout
-      - run: echo $PYENV_PYTHON_VERSION > pyenv_python_version # https://discuss.circleci.com/t/cannot-use-circle-yml-environment-variables-in-cache-keys/10994
-      - restore_brew_pyenv
-      - run:
-          name: OSX Prepare
-          command: |
-            brew install readline xz pyenv
-            pyenv install --skip-existing $PYENV_PYTHON_VERSION
-            pyenv global $PYENV_PYTHON_VERSION
-            echo 'export PATH=~/.pyenv/shims:$PATH' >> $BASH_ENV
-      - cache_brew_pyenv
-      - run_prepare
-      - run_test
-      - store_dist
-
 
 executors:
   linux_executor:
@@ -127,7 +103,10 @@ jobs:
       python_version: << parameters.python_version >>
       toxenv: << parameters.toxenv >>
     steps:
-      - linux_steps
+      - checkout
+      - run_prepare
+      - run_test
+      - store_dist
 
   osx:
     <<: *parameters
@@ -137,7 +116,20 @@ jobs:
       python_version: << parameters.python_version >>
       toxenv: << parameters.toxenv >>
     steps:
-      - osx_steps
+      - checkout
+      - run: echo $PYENV_PYTHON_VERSION > pyenv_python_version # https://discuss.circleci.com/t/cannot-use-circle-yml-environment-variables-in-cache-keys/10994
+      - restore_brew_pyenv
+      - run:
+          name: OSX Prepare
+          command: |
+            brew install readline xz pyenv
+            pyenv install --skip-existing $PYENV_PYTHON_VERSION
+            pyenv global $PYENV_PYTHON_VERSION
+            echo 'export PATH=~/.pyenv/shims:$PATH' >> $BASH_ENV
+      - cache_brew_pyenv
+      - run_prepare
+      - run_test
+      - store_dist
 
 
 workflows:
