@@ -23,15 +23,10 @@ aliases:
   - &restore_brew_pyenv
     restore_cache:
       keys:
-        - brew_pyenv-{{ checksum "brew_pyenv_checksum" }}
-        - brew_pyenv-
-  - &checksum_brew_pyenv
-    run:
-      name: Build brew/pyenv checksum
-      command: "ls -laR ~/.pyenv /usr/local/Homebrew > brew_pyenv_checksum"
+        - brew_pyenv-{{ echo $TOXENV }}
   - &cache_brew_pyenv
     save_cache:
-      key: brew_pyenv-{{ checksum "brew_pyenv_checksum" }}
+      key: brew_pyenv-{{ echo $TOXENV }}
       paths:
         - "~/.pyenv"
         - "/usr/local/Homebrew"
@@ -45,7 +40,6 @@ aliases:
       xcode: "10.0.0"
     steps:
       - checkout
-      - *checksum_brew_pyenv
       - *restore_brew_pyenv
       - run:
           name: OSX Prepare
@@ -53,7 +47,6 @@ aliases:
             brew install readline xz pyenv
             python3 .circleci/pyenvinstall.py
             echo 'export PATH=~/.pyenv/shims:$PATH' >> $BASH_ENV
-      - *checksum_brew_pyenv
       - *cache_brew_pyenv
       - *run_prepare
       - *run_test
