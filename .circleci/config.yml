@@ -53,7 +53,7 @@ jobs:
           name: OSX Prepare
           command: |
             brew install readline xz pyenv
-            python .circleci/pyenvinstall.py
+            python3 .circleci/pyenvinstall.py
             echo 'export PATH=~/.pyenv/shims:$PATH' >> $BASH_ENV
 
   osx-py35:
