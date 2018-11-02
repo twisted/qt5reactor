@@ -1,22 +1,24 @@
 version: 2
 
-job_template: &job_template
-  steps:
-    - checkout
-
-    - run: &run_prepare
-        name: Prepare
-        command: |
-          python --version
-          pip --version
-          pip install tox
-    - run: &run_test
-        name: Test
-        command: |
-          tox
-          tox -e codecov
-
 jobs:
+  job_template: &job_template
+    docker: # unused 'default' image
+      - image: circleci/python
+    steps:
+      - checkout
+
+      - run: &run_prepare
+          name: Prepare
+          command: |
+            python --version
+            pip --version
+            pip install tox
+      - run: &run_test
+          name: Test
+          command: |
+            tox
+            tox -e codecov
+
   linux-py35:
     <<: *job_template
     docker:
