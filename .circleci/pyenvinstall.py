@@ -12,7 +12,7 @@ def main():
     versions = [v.strip().split('.') for v in versions if 'dev' not in v]
     versions = [v for v in versions if '.'.join(v).startswith(target)]
     version = '.'.join(max(versions))
-    subprocess.check_output(['pyenv', 'install', version])
+    subprocess.check_output(['pyenv', 'install', '--skip-existing', version])
     subprocess.check_output(['pyenv', 'global', version])
 
 
