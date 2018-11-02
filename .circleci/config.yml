@@ -11,16 +11,19 @@ aliases:
         type: string
 
   - &py35_arguments
+      name: py35
       pyenv_python_version: "3.5.6"
       python_version: "3.5"
       toxenv: "py35"
 
   - &py36_arguments
+      name: py36
       pyenv_python_version: "3.6.7"
       python_version: "3.6"
       toxenv: "py36"
 
   - &py37_arguments
+      name: py37
       pyenv_python_version: "3.7.1"
       python_version: "3.7"
       toxenv: "py37"
@@ -100,6 +103,9 @@ executors:
     <<: *parameters
     macos:
       xcode: "10.0.0"
+    environment:
+      TOXENV: << parameters.toxenv >>
+      PYENV_PYTHON_VERSION: << parameters.pyenv_python_version >>
 
 
 jobs:
