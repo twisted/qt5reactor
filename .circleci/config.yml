@@ -41,6 +41,7 @@ aliases:
     steps:
       - checkout
       - run: echo $PYENV_PYTHON_VERSION > pyenv_python_version
+      - run: cat pyenv_python_version
       - *restore_brew_pyenv
       - run:
           name: OSX Prepare
