@@ -45,6 +45,7 @@ aliases:
       xcode: "10.0.0"
     steps:
       - checkout
+      - *checksum_brew_pyenv
       - *restore_brew_pyenv
       - run:
           name: OSX Prepare
