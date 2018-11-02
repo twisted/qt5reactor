@@ -23,10 +23,10 @@ aliases:
   - &restore_brew_pyenv
     restore_cache:
       keys:
-        - brew_pyenv-{{ checksum "pyenv_python_version" }}
+        - brew_pyenv-$PYENV_PYTHON_VERSION
   - &cache_brew_pyenv
     save_cache:
-      key: brew_pyenv-{{ checksum "pyenv_python_version" }}
+      key: brew_pyenv-$PYENV_PYTHON_VERSION
       paths:
         - "~/.pyenv"
         - "/usr/local/Homebrew"
