@@ -3,7 +3,6 @@ version: 2
 job_template: &job_template
   steps:
     - checkout
-
     - run: &run_prepare
         name: Prepare
         command: |
@@ -49,6 +48,7 @@ jobs:
     macos:
       xcode: "10.0.0"
     steps:
+      - checkout
       - run:
           name: OSX Prepare
           command: |
