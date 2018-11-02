@@ -55,6 +55,9 @@ commands:
           name: Test
           command: |
             venv/bin/tox
+      - run:
+          name: Codecov
+          command: |
             venv/bin/tox -e codecov
 
   store_dist:
