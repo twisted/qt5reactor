@@ -28,6 +28,9 @@ aliases:
       python_version: "3.7"
       toxenv: "py37"
 
+  - &dist_arguments
+      <<: *py37_arguments
+      toxenv: "dist"
 
 commands:
   run_prepare:
@@ -67,11 +70,17 @@ commands:
             - "~/.pyenv"
             - "/usr/local/Homebrew"
 
+  store_dist:
+    steps:
+      - store_artifacts:
+          path: "dist/*"
+
   linux_steps:
     steps:
       - checkout
       - run_prepare
       - run_test
+      - store_dist
 
   osx_steps:
     steps:
@@ -88,6 +97,7 @@ commands:
       - cache_brew_pyenv
       - run_prepare
       - run_test
+      - store_dist
 
 
 executors:
@@ -136,6 +146,9 @@ workflows:
   all:
     jobs:
       - linux:
+          name: linux-dist
+          <<: *dist_arguments
+      - linux:
           name: linux-py35
           <<: *py35_arguments
       - linux:
@@ -144,6 +157,9 @@ workflows:
       - linux:
           name: linux-py37
           <<: *py37_arguments
+      - osx:
+          name: osx-dist
+          <<: *dist_arguments
       - osx:
           name: osx-py35
           <<: *py35_arguments
