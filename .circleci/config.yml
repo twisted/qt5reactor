@@ -7,14 +7,20 @@ job_template: &job_template
     - run: &run_prepare
         name: Prepare
         command: |
-          python --version
-          pip --version
-          pip install tox
+          $PYTHON --version
+          $PYTHON -m pip --version
+          $PYTHON -m pip install -q --user --ignore-installed --upgrade virtualenv
+          $PYTHON -m virtualenv venv
+          venv/bin/python -m pip install --upgrade pip
+          venv/bin/python -m pip freeze
+          venv/bin/python --version
+          venv/bin/pip --version
+          venv/bin/pip install tox
     - run: &run_test
         name: Test
         command: |
-          tox
-          tox -e codecov
+          venv/bin/tox
+          venv/bin/tox -e codecov
 
 jobs:
   linux-py35:
