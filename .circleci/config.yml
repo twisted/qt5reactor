@@ -14,7 +14,6 @@ aliases:
         venv/bin/python --version
         venv/bin/pip --version
         venv/bin/pip install tox
-        echo $TOXENV > toxenv
   - &run_test
     run:
       name: Test
@@ -40,6 +39,7 @@ aliases:
     macos:
       xcode: "10.0.0"
     steps:
+      - run: echo $TOXENV > toxenv
       - checkout
       - *restore_brew_pyenv
       - run:
