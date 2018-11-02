@@ -1,7 +1,7 @@
 version: 2
 
 aliases:
-  run: &run_prepare
+  run_prepare: &run_prepare
     name: Prepare
     command: |
       python3 --version
@@ -13,7 +13,7 @@ aliases:
       venv/bin/python --version
       venv/bin/pip --version
       venv/bin/pip install tox
-  run: &run_test
+  run_test: &run_test
     name: Test
     command: |
       venv/bin/tox
