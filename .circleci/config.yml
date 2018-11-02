@@ -49,8 +49,6 @@ jobs:
             brew install readline xz pyenv
             python pyenvinstall.py
             echo 'export PATH=~/.pyenv/shims:$PATH' >> $BASH_ENV
-      - *run_prepare
-      - *run_test
 
   osx-py35:
     <<: *osx-template
