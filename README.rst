@@ -1,7 +1,7 @@
 Qt5Reactor
 ==========
 
-|PyPI| |Pythons| |Travis| |AppVeyor| |GitHub|
+|PyPI| |Pythons| |Travis| |AppVeyor| |Circle| |GitHub|
 
 
 .. |PyPI| image:: https://img.shields.io/pypi/v/qt5reactor.svg
@@ -19,6 +19,10 @@ Qt5Reactor
 .. |AppVeyor| image:: https://ci.appveyor.com/api/projects/status/50haxti1yjugdpya/branch/master?svg=true
    :alt: AppVeyor build status
    :target: https://ci.appveyor.com/project/sunu/qt5reactor
+
+.. |Circle| image:: https://circleci.com/gh/sunu/qt5reactor.svg?style=svg
+   :alt: Circle build status
+   :target: https://circleci.com/gh/sunu/qt5reactor
 
 .. |GitHub| image:: https://img.shields.io/github/last-commit/sunu/qt5reactor/master.svg
    :alt: source on GitHub
