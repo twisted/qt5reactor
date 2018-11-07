@@ -106,8 +106,23 @@ Subsequent port by therve
 
 import sys
 
-from PyQt5.QtCore import (
-    pyqtSignal, QCoreApplication, QEventLoop, QObject, QSocketNotifier, QTimer)
+try:
+    # try PyQt5
+    from PyQt5.QtCore import pyqtSignal as Signal
+    from PyQt5.QtCore import (
+        QCoreApplication, QEventLoop, QObject, QSocketNotifier, QTimer,
+    )
+except ImportError as e0:
+    try:
+        # try PySide2
+        from PySide2.QtCore import (
+            Signal, QCoreApplication, QEventLoop, QObject, QSocketNotifier, QTimer,
+        )
+    except ImportError as e1:
+        raise ImportError(
+            "Neither PyQt5 nor PySide2 installed.\nPyQt5: {}\nPySide2: {})".format(e0, e1)
+        )
+
 from twisted.internet import posixbase
 from twisted.internet.interfaces import IReactorFDSet
 from twisted.python import log, runtime
@@ -117,7 +132,7 @@ from zope.interface import implementer
 class TwistedSocketNotifier(QObject):
     """Connection between an fd event and reader/writer callbacks."""
 
-    activated = pyqtSignal(int)
+    activated = Signal(int)
 
     def __init__(self, parent, reactor, watcher, socketType):
         QObject.__init__(self, parent)

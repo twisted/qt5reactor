@@ -60,17 +60,8 @@ Testing
 Make sure the plugin directory is in path or in the current directory for
 reactor discovery to work.
 
-Testing on Python 3
-~~~~~~~~~~~~~~~~~~~
+There is also `pytest-twisted`_ for use with pytest_.
+You can specify to use the qt5reactor by adding ``--reactor=qt5reactor``.
 
-``trial`` does not work on Python3 yet. Use Twisted's `Python 3 test runner`_ instead.
-
-.. _Python 3 test runner: https://twistedmatrix.com/trac/browser/trunk/admin/run-python3-tests
-
-Install the reactor before calling ``unittest.main()``.
-
-::
-
-    import qt5reactor
-    qt5reactor.install()
-    unittest.main(...)
+.. _pytest-twisted: https://github.com/pytest-dev/pytest-twisted
+.. _pytest: https://github.com/pytest-dev/pytest
