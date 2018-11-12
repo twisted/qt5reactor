@@ -92,6 +92,7 @@ jobs:
       name: linux_executor
       python_version: << parameters.python_version >>
       toxenv: << parameters.toxenv >>
+      qtness: << parameters.qtness >>
     steps:
       - checkout
       - run_prepare
