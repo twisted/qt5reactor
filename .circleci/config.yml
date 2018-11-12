@@ -135,7 +135,6 @@ workflows:
       - linux:
           name: linux-dist
           <<: *dist_arguments
-          qtness: pyqt5
       - linux:
           name: linux-py35-pyqt5
           <<: *py35_arguments
@@ -164,7 +163,6 @@ workflows:
       - osx:
           name: osx-dist
           <<: *dist_arguments
-          qtness: pyqt5
       - osx:
           name: osx-py35-pyqt5
           <<: *py35_arguments

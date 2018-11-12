@@ -3,7 +3,7 @@ language: python
 matrix:
   include:
     - python: 3.6
-      env: TOXENV=dist
+      env: TOXENV=dist-
     - python: 3.5
       env: TOXENV=py35-pyqt5
     - python: 3.5

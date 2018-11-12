@@ -2,7 +2,7 @@ skip_branch_with_pr: true
 
 environment:
   matrix:
-    - TOXENV: dist
+    - TOXENV: dist-
     - TOXENV: py35-pyqt5
     - TOXENV: py35-pyside2
     - TOXENV: py36-pyqt5
