@@ -72,6 +72,7 @@ commands:
 executors:
   linux_executor:
     <<: *parameters
+    name: linux-<< parameters.toxenv >>-<< parameters.qtness >>
     docker:
       - image: circleci/python:<< parameters.python_version >>
     environment:
@@ -79,6 +80,7 @@ executors:
 
   osx_executor:
     <<: *parameters
+    name: osx-<< parameters.toxenv >>-<< parameters.qtness >>
     macos:
       xcode: "10.0.0"
     environment:
@@ -132,61 +134,43 @@ workflows:
   all:
     jobs:
       - linux:
-          name: linux-dist
           <<: *dist_arguments
       - linux:
-          name: linux-py35
           <<: *py35_arguments
           qtness: pyqt5
       - linux:
-          name: linux-py35
           <<: *py35_arguments
           qtness: pyside2
       - linux:
-          name: linux-py36
           <<: *py36_arguments
           qtness: pyqt5
       - linux:
-          name: linux-py36
           <<: *py36_arguments
           qtness: pyside2
       - linux:
-          name: linux-py37
           <<: *py37_arguments
           qtness: pyqt5
       - linux:
-          name: linux-py37
           <<: *py37_arguments
           qtness: pyside2
+
       - osx:
-          name: osx-dist
           <<: *dist_arguments
-          qtness: pyqt5
       - osx:
-          name: osx-dist
-          <<: *dist_arguments
-          qtness: pyside2
-      - osx:
-          name: osx-py35
           <<: *py35_arguments
           qtness: pyqt5
       - osx:
-          name: osx-py35
           <<: *py35_arguments
           qtness: pyside2
       - osx:
-          name: osx-py36
           <<: *py36_arguments
           qtness: pyqt5
       - osx:
-          name: osx-py36
           <<: *py36_arguments
           qtness: pyside2
       - osx:
-          name: osx-py37
           <<: *py37_arguments
           qtness: pyqt5
       - osx:
-          name: osx-py37
           <<: *py37_arguments
           qtness: pyside2
