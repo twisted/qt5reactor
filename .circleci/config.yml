@@ -10,6 +10,9 @@ aliases:
         type: string
       toxenv:
         type: string
+      qtness:
+        type: string
+        default: ""
 
   - &py35_arguments
       name: py35
@@ -72,14 +75,14 @@ executors:
     docker:
       - image: circleci/python:<< parameters.python_version >>
     environment:
-      TOXENV: << parameters.toxenv >>
+      TOXENV: << parameters.toxenv >>-<< parameters.qtness >>
 
   osx_executor:
     <<: *parameters
     macos:
       xcode: "10.0.0"
     environment:
-      TOXENV: << parameters.toxenv >>
+      TOXENV: << parameters.toxenv >>-<< parameters.qtness >>
 
 
 jobs:
@@ -134,21 +137,56 @@ workflows:
       - linux:
           name: linux-py35
           <<: *py35_arguments
+          qtness: pyqt5
+      - linux:
+          name: linux-py35
+          <<: *py35_arguments
+          qtness: pyside2
       - linux:
           name: linux-py36
           <<: *py36_arguments
+          qtness: pyqt5
+      - linux:
+          name: linux-py36
+          <<: *py36_arguments
+          qtness: pyside2
       - linux:
           name: linux-py37
           <<: *py37_arguments
+          qtness: pyqt5
+      - linux:
+          name: linux-py37
+          <<: *py37_arguments
+          qtness: pyside2
       - osx:
           name: osx-dist
           <<: *dist_arguments
+          qtness: pyqt5
+      - osx:
+          name: osx-dist
+          <<: *dist_arguments
+          qtness: pyside2
       - osx:
           name: osx-py35
           <<: *py35_arguments
+          qtness: pyqt5
+      - osx:
+          name: osx-py35
+          <<: *py35_arguments
+          qtness: pyside2
       - osx:
           name: osx-py36
           <<: *py36_arguments
+          qtness: pyqt5
+      - osx:
+          name: osx-py36
+          <<: *py36_arguments
+          qtness: pyside2
       - osx:
           name: osx-py37
           <<: *py37_arguments
+          qtness: pyqt5
+      - osx:
+          name: osx-py37
+          <<: *py37_arguments
+          qtness: pyside2

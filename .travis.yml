@@ -5,13 +5,23 @@ matrix:
     - python: 3.6
       env: TOXENV=dist
     - python: 3.5
+      env: TOXENV=py35-pyqt5
+    - python: 3.5
+      env: TOXENV=py35-pyside2
     - python: 3.6
+      env: TOXENV=py36-pyqt5
+    - python: 3.6
+      env: TOXENV=py36-pyside2
     - python: 3.7
+      env: TOXENV=py37-pyqt5
+      dist: xenial
+      sudo: true
+    - python: 3.7
+      env: TOXENV=py37-pyside2
       dist: xenial
       sudo: true
 
 install:
-  - pip install tox-travis
   - pip install -r requirements.tox.txt
 
 script:

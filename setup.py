@@ -40,8 +40,14 @@ setup(
     packages=find_packages("src"),
     package_dir={"": "src"},
     keywords=['Qt', 'twisted'],
-    install_requires=['pyqt5', 'twisted'],
+    install_requires=['twisted'],
     extras_require={
+        "pyqt5": [
+            "pyqt5",
+        ],
+        "pyside2": [
+            "pyside2",
+        ],
         "test": [
             "coverage",
             "pytest",

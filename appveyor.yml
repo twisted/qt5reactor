@@ -3,9 +3,12 @@ skip_branch_with_pr: true
 environment:
   matrix:
     - TOXENV: dist
-    - TOXENV: py35
-    - TOXENV: py36
-    - TOXENV: py37
+    - TOXENV: py35-pyqt5
+    - TOXENV: py35-pyside2
+    - TOXENV: py36-pyqt5
+    - TOXENV: py36-pyside2
+    - TOXENV: py37-pyqt5
+    - TOXENV: py37-pyside2
 
 # https://www.appveyor.com/docs/how-to/rdp-to-build-worker/
 init:
