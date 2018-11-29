@@ -2,24 +2,27 @@ atomicwrites==1.2.1
 attrs==18.2.0
 Automat==0.7.0
 constantly==15.1.0
-coverage==4.5.1
+coverage==4.5.2
 decorator==4.3.0
+filelock==3.0.10
 greenlet==0.4.15
 hyperlink==18.0.0
 idna==2.7
 incremental==17.5.0
 more-itertools==4.3.0
-pluggy==0.7.1
-py==1.6.0
+pluggy==0.8.0
+py==1.7.0
 PyHamcrest==1.9.0
-pytest==3.8.0
+pytest==4.0.1
 pytest-cov==2.6.0
 pytest-twisted==1.8
 -e .[test]
 six==1.11.0
-tox==3.2.1
-Twisted==18.9.0rc1; platform_system != "Windows" and platform_system != "Darwin"
-Twisted[osx_platform]==18.9.0rc1; platform_system == "Darwin"
-Twisted[windows_platform]==18.9.0rc1; platform_system == "Windows"
-virtualenv==16.0.0
-zope.interface==4.5.0
+toml==0.10.0
+tox==3.5.3
+Twisted==18.9.0; platform_system != "Windows" and platform_system != "Darwin"
+Twisted[osx_platform]==18.9.0; platform_system == "Darwin"
+Twisted[windows_platform]==18.9.0; platform_system == "Windows"
+virtualenv==16.1.0
+zope.interface==4.6.0
+
