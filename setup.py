@@ -2,6 +2,8 @@
 import os
 from setuptools import setup, find_packages
 
+import versioneer
+
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
@@ -26,7 +28,8 @@ classifiers = [
 
 setup(
     name='qt5reactor',
-    version='0.5',
+    version=versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass(),
     license='MIT',
     classifiers=classifiers,
     author='Christopher R. Wood',
@@ -34,8 +37,23 @@ setup(
     description='Twisted Qt Integration',
     long_description=read('README.rst'),
     url='https://github.com/sunu/qt5reactor',
-    packages=find_packages(),
-    py_modules=['qt5reactor'],
+    packages=find_packages("src"),
+    package_dir={"": "src"},
     keywords=['Qt', 'twisted'],
-    install_requires=['twisted']
+    install_requires=['twisted'],
+    extras_require={
+        "pyqt5": [
+            "pyqt5",
+        ],
+        "pyside2": [
+            "pyside2",
+        ],
+        "test": [
+            "coverage",
+            "pytest",
+            "pytest-cov",
+            "pytest-twisted",
+            "tox>=3.1",
+        ],
+    },
 )
