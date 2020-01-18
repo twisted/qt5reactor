@@ -114,6 +114,7 @@ jobs:
       - run:
           name: OSX Prepare
           command: |
+            brew update
             brew install readline xz pyenv
             pyenv install --skip-existing << parameters.pyenv_python_version >>
             pyenv global << parameters.pyenv_python_version >>
