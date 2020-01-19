@@ -29,8 +29,10 @@ Qt5Reactor
    :target: https://github.com/sunu/qt5reactor
 
 
-Using the QtReactor
--------------------
+Using the Qt5Reactor
+--------------------
+
+Qt5Reactor is compatible with both PyQt5 and PySide2.
 
 Install using pip
 
