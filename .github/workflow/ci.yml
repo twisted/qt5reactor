@@ -83,7 +83,7 @@ jobs:
           echo
           pip freeze --all --no-python-version-warning
       - name: Install Linux Qt5 dependencies
-        if: matrix.os.python_platform == 'linux' && matrix.reactor.dependencies == 'qt5'
+        if: matrix.os.python_platform == 'linux'
         run: |
           apt-get update --yes
           apt-get install --yes libgl1
