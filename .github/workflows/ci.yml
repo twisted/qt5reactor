@@ -1,0 +1,105 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - v*
+  pull_request:
+    branches: 
+      - "*"
+  schedule:
+    # Daily at 05:47
+    - cron: '47 5 * * *'
+
+jobs:
+  test:
+    name: ${{ matrix.os.name }} ${{ matrix.python.name }} ${{ matrix.wrapper.name }}
+    runs-on: ${{ matrix.os.runs-on }}
+    container: ${{ matrix.os.container[matrix.python.docker] }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - name: Linux
+            runs-on: ubuntu-latest
+            python_platform: linux
+            container:
+              3.5: docker://python:3.5-buster
+              3.6: docker://python:3.6-buster
+              3.7: docker://python:3.7-buster
+              3.8: docker://python:3.8-buster
+          - name: Windows
+            runs-on: windows-latest
+            python_platform: win32
+          - name: macOS
+            runs-on: macos-latest
+            python_platform: darwin
+        python:
+          - name: CPython 3.5
+            tox: py35
+            action: 3.5
+            docker: 3.5
+          - name: CPython 3.6
+            tox: py36
+            action: 3.6
+            docker: 3.6
+          - name: CPython 3.7
+            tox: py37
+            action: 3.7
+            docker: 3.7
+          - name: CPython 3.8
+            tox: py38
+            action: 3.8
+            docker: 3.8
+        wrapper:
+          - name: PyQt5
+            tox: pyqt5
+          - name: PySide2
+            tox: pyside2
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up ${{ matrix.python.name }}
+        if: ${{ job.container == '' }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python.action }}
+          architecture: x64
+      - name: Report Python information
+        shell: bash
+        run: |
+          python -c 'import sys; print(sys.version)'
+          echo
+          echo "    <=======>"
+          echo
+          pip --version
+          echo
+          echo "    <=======>"
+          echo
+          pip list --no-python-version-warning
+          echo
+          echo "    <=======>"
+          echo
+          pip freeze --all --no-python-version-warning
+      - name: Install Linux Qt5 dependencies
+        if: matrix.os.python_platform == 'linux'
+        run: |
+          apt-get update --yes
+          apt-get install --yes libgl1
+      - name: Install
+        run: |
+          pip install tox
+      - name: Test
+        run: |
+          tox -v -e "${{ matrix.python.tox }}-${{ matrix.wrapper.tox }}"
+  all:
+    name: All
+    runs-on: ubuntu-latest
+    needs:
+      - test
+    steps:
+      - name: This
+        shell: python
+        run: |
+          import this
