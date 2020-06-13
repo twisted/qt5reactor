@@ -132,8 +132,6 @@ from zope.interface import implementer
 class TwistedSocketNotifier(QObject):
     """Connection between an fd event and reader/writer callbacks."""
 
-    activated = Signal(int)
-
     def __init__(self, parent, reactor, watcher, socketType):
         QObject.__init__(self, parent)
         self.reactor = reactor
