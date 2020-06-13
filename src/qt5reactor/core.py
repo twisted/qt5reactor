@@ -108,7 +108,6 @@ import sys
 
 try:
     # try PyQt5
-    from PyQt5.QtCore import pyqtSignal as Signal
     from PyQt5.QtCore import (
         QCoreApplication, QEventLoop, QObject, QSocketNotifier, QTimer,
     )
@@ -116,7 +115,7 @@ except ImportError as e0:
     try:
         # try PySide2
         from PySide2.QtCore import (
-            Signal, QCoreApplication, QEventLoop, QObject, QSocketNotifier, QTimer,
+            QCoreApplication, QEventLoop, QObject, QSocketNotifier, QTimer,
         )
     except ImportError as e1:
         raise ImportError(
