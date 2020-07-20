@@ -1,7 +1,7 @@
 Qt5Reactor
 ==========
 
-|PyPI| |Pythons| |Travis| |AppVeyor| |Circle| |GitHub|
+|PyPI| |Pythons| |GitHub| |GitHub Actions|
 
 
 .. |PyPI| image:: https://img.shields.io/pypi/v/qt5reactor.svg
@@ -12,21 +12,13 @@ Qt5Reactor
    :alt: supported Python versions
    :target: https://pypi.org/project/qt5reactor/
 
-.. |Travis| image:: https://travis-ci.org/sunu/qt5reactor.svg?branch=master
-   :alt: Travis build status
-   :target: https://travis-ci.org/sunu/qt5reactor
-
-.. |AppVeyor| image:: https://ci.appveyor.com/api/projects/status/50haxti1yjugdpya/branch/master?svg=true
-   :alt: AppVeyor build status
-   :target: https://ci.appveyor.com/project/sunu/qt5reactor
-
-.. |Circle| image:: https://circleci.com/gh/sunu/qt5reactor.svg?style=svg
-   :alt: Circle build status
-   :target: https://circleci.com/gh/sunu/qt5reactor
-
-.. |GitHub| image:: https://img.shields.io/github/last-commit/sunu/qt5reactor/master.svg
+.. |GitHub| image:: https://img.shields.io/github/last-commit/twisted/qt5reactor/master.svg
    :alt: source on GitHub
-   :target: https://github.com/sunu/qt5reactor
+   :target: https://github.com/twisted/qt5reactor
+
+.. |GitHub Actions| image:: https://github.com/twisted/qt5reactor/workflows/CI/badge.svg
+   :alt: GitHub Actions build status
+   :target: https://github.com/twisted/qt5reactor/actions
 
 
 Using the Qt5Reactor
