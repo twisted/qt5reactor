@@ -12,13 +12,13 @@ Qt5Reactor
    :alt: supported Python versions
    :target: https://pypi.org/project/qt5reactor/
 
-.. |GitHub| image:: https://img.shields.io/github/last-commit/sunu/qt5reactor/master.svg
+.. |GitHub| image:: https://img.shields.io/github/last-commit/twisted/qt5reactor/master.svg
    :alt: source on GitHub
-   :target: https://github.com/sunu/qt5reactor
+   :target: https://github.com/twisted/qt5reactor
 
-.. |GitHub Actions| image:: https://github.com/sunu/qt5reactor/workflows/CI/badge.svg
+.. |GitHub Actions| image:: https://github.com/twisted/qt5reactor/workflows/CI/badge.svg
    :alt: GitHub Actions build status
-   :target: https://github.com/sunu/qt5reactor/actions
+   :target: https://github.com/twisted/qt5reactor/actions
 
 
 Using the Qt5Reactor
