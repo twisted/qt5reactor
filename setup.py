@@ -34,7 +34,7 @@ setup(
     author_email='chris@leastauthority.com',
     description='Twisted Qt Integration',
     long_description=read('README.rst'),
-    url='https://github.com/sunu/qt5reactor',
+    url='https://github.com/twisted/qt5reactor',
     packages=find_packages("src"),
     package_dir={"": "src"},
     keywords=['Qt', 'twisted'],
