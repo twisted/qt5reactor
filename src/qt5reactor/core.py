@@ -403,7 +403,7 @@ def win32install():
     # fully isolated the issue but my present guess is that it relates to
     # multiple instances of TwistedSocketNotifier being created (and
     # connected?) before we found out that the reactor was already installed
-    # and then let then newly constructed QtEventReactor get collected.  The
+    # and then letting the newly constructed QtEventReactor get collected.  The
     # annoying convoluted code below is meant to:
     #
     #   1)  only construct a QtEventReactor if it will get installed
