@@ -315,25 +315,13 @@ class QtReactor(posixbase.PosixReactorBase):
             self._blockApp = self.qApp
         else:
             self._blockApp = QEventLoop()
-        self.runReturn()
+        self.runReturn(installSignalHandlers=installSignalHandlers)
         self._blockApp.exec_()
         if self.running:
             self.stop()
             self.runUntilCurrent()
 
-    # def sigInt(self, *args):
-    #     print('I received a sigint. BAIBAI')
-    #     posixbase.PosixReactorBase.sigInt()
-    #
-    # def sigTerm(self, *args):
-    #     print('I received a sigterm. BAIBAI')
-    #     posixbase.PosixReactorBase.sigTerm()
-    #
-    # def sigBreak(self, *args):
-    #     print('I received a sigbreak. BAIBAI')
-    #     posixbase.PosixReactorBase.sigBreak()
-
-
+            
 class QtEventReactor(QtReactor):
     def __init__(self, *args, **kwargs):
         self._events = {}
