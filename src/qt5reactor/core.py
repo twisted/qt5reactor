@@ -337,7 +337,7 @@ class QtEventReactor(QtReactor):
             del self._events[event]
 
     def doEvents(self):
-        handles = self._events.keys()
+        handles = list(self._events.keys())
         if len(handles) > 0:
             val = None
             while val != WAIT_TIMEOUT:
