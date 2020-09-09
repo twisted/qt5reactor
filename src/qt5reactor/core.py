@@ -108,7 +108,6 @@ import sys
 
 try:
     # try PyQt5
-    from PyQt5.QtCore import pyqtSignal as Signal
     from PyQt5.QtCore import (
         QCoreApplication, QEventLoop, QObject, QSocketNotifier, QTimer,
     )
@@ -116,7 +115,7 @@ except ImportError as e0:
     try:
         # try PySide2
         from PySide2.QtCore import (
-            Signal, QCoreApplication, QEventLoop, QObject, QSocketNotifier, QTimer,
+            QCoreApplication, QEventLoop, QObject, QSocketNotifier, QTimer,
         )
     except ImportError as e1:
         raise ImportError(
@@ -136,8 +135,6 @@ class Qt5ReactorError(Exception):
 
 class TwistedSocketNotifier(QObject):
     """Connection between an fd event and reader/writer callbacks."""
-
-    activated = Signal(int)
 
     def __init__(self, parent, reactor, watcher, socketType):
         QObject.__init__(self, parent)
@@ -320,25 +317,13 @@ class QtReactor(posixbase.PosixReactorBase):
             self._blockApp = self.qApp
         else:
             self._blockApp = QEventLoop()
-        self.runReturn()
+        self.runReturn(installSignalHandlers=installSignalHandlers)
         self._blockApp.exec_()
         if self.running:
             self.stop()
             self.runUntilCurrent()
 
-    # def sigInt(self, *args):
-    #     print('I received a sigint. BAIBAI')
-    #     posixbase.PosixReactorBase.sigInt()
-    #
-    # def sigTerm(self, *args):
-    #     print('I received a sigterm. BAIBAI')
-    #     posixbase.PosixReactorBase.sigTerm()
-    #
-    # def sigBreak(self, *args):
-    #     print('I received a sigbreak. BAIBAI')
-    #     posixbase.PosixReactorBase.sigBreak()
-
-
+            
 class QtEventReactor(QtReactor):
     def __init__(self, *args, **kwargs):
         self._events = {}
@@ -354,7 +339,7 @@ class QtEventReactor(QtReactor):
             del self._events[event]
 
     def doEvents(self):
-        handles = self._events.keys()
+        handles = list(self._events.keys())
         if len(handles) > 0:
             val = None
             while val != WAIT_TIMEOUT:
