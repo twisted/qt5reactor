@@ -46,7 +46,10 @@ setup(
             "pyqt5",
         ],
         "pyside2": [
-            "pyside2",
+            # != 5.15.0 for:
+            #   https://bugreports.qt.io/browse/PYSIDE-1317
+            #   https://github.com/pytest-dev/pytest-twisted/pull/107#issuecomment-643679361
+            "pyside2 != 5.15.0",
         ],
         "test": [
             "coverage",
