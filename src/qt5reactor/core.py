@@ -108,7 +108,6 @@ import sys
 
 try:
     # try PyQt5
-    from PyQt5.QtCore import pyqtSignal as Signal
     from PyQt5.QtCore import (
         QCoreApplication, QEventLoop, QObject, QSocketNotifier, QTimer,
     )
@@ -116,23 +115,26 @@ except ImportError as e0:
     try:
         # try PySide2
         from PySide2.QtCore import (
-            Signal, QCoreApplication, QEventLoop, QObject, QSocketNotifier, QTimer,
+            QCoreApplication, QEventLoop, QObject, QSocketNotifier, QTimer,
         )
     except ImportError as e1:
         raise ImportError(
             "Neither PyQt5 nor PySide2 installed.\nPyQt5: {}\nPySide2: {})".format(e0, e1)
         )
 
+from twisted.internet.error import ReactorAlreadyInstalledError
 from twisted.internet import posixbase
 from twisted.internet.interfaces import IReactorFDSet
 from twisted.python import log, runtime
 from zope.interface import implementer
 
 
+class Qt5ReactorError(Exception):
+    pass
+
+
 class TwistedSocketNotifier(QObject):
     """Connection between an fd event and reader/writer callbacks."""
-
-    activated = Signal(int)
 
     def __init__(self, parent, reactor, watcher, socketType):
         QObject.__init__(self, parent)
@@ -303,7 +305,7 @@ class QtReactor(posixbase.PosixReactorBase):
             self.qApp.processEvents(QEventLoop.AllEvents, delay * 1000)
         timeout = self.timeout()
         if timeout is not None:
-            self._timer.setInterval(timeout * 1000)
+            self._timer.setInterval(int(timeout * 1000))
             self._timer.start()
 
     def runReturn(self, installSignalHandlers=True):
@@ -315,25 +317,13 @@ class QtReactor(posixbase.PosixReactorBase):
             self._blockApp = self.qApp
         else:
             self._blockApp = QEventLoop()
-        self.runReturn()
+        self.runReturn(installSignalHandlers=installSignalHandlers)
         self._blockApp.exec_()
         if self.running:
             self.stop()
             self.runUntilCurrent()
 
-    # def sigInt(self, *args):
-    #     print('I received a sigint. BAIBAI')
-    #     posixbase.PosixReactorBase.sigInt()
-    #
-    # def sigTerm(self, *args):
-    #     print('I received a sigterm. BAIBAI')
-    #     posixbase.PosixReactorBase.sigTerm()
-    #
-    # def sigBreak(self, *args):
-    #     print('I received a sigbreak. BAIBAI')
-    #     posixbase.PosixReactorBase.sigBreak()
-
-
+            
 class QtEventReactor(QtReactor):
     def __init__(self, *args, **kwargs):
         self._events = {}
@@ -349,7 +339,7 @@ class QtEventReactor(QtReactor):
             del self._events[event]
 
     def doEvents(self):
-        handles = self._events.keys()
+        handles = list(self._events.keys())
         if len(handles) > 0:
             val = None
             while val != WAIT_TIMEOUT:
@@ -391,8 +381,38 @@ def posixinstall():
 def win32install():
     """Install the Qt reactor."""
     from twisted.internet.main import installReactor
-    p = QtEventReactor()
-    installReactor(p)
+
+    # As of PyQt5==5.15.0 on Windows, pytest-twisted started hanging in a test
+    # where it installs the qt5reactor twice.  This does occur across Python
+    # versions 3.5/6/7/8 but not with PySide2 or on macOS or Linux.  I have not
+    # fully isolated the issue but my present guess is that it relates to
+    # multiple instances of TwistedSocketNotifier being created (and
+    # connected?) before we found out that the reactor was already installed
+    # and then letting the newly constructed QtEventReactor get collected.  The
+    # annoying convoluted code below is meant to:
+    #
+    #   1)  only construct a QtEventReactor if it will get installed
+    #
+    #   2)  if already installed, raise the same exception from the same place as
+    #       before
+    #
+    #   3)  raise another exception if the assumptions about twisted's
+    #       installReactor don't hold true
+
+    if 'twisted.internet.reactor' not in sys.modules:
+        p = QtEventReactor()
+        installReactor(p)
+    else:
+        try:
+            installReactor(None)
+        except ReactorAlreadyInstalledError:
+            raise
+        except Exception as e:
+            raise Qt5ReactorError('Unexpected error while installing') from e
+        else:
+            raise Qt5ReactorError(
+                'Exception expected but not raised while installing',
+            )
 
 
 if runtime.platform.getType() == 'win32':

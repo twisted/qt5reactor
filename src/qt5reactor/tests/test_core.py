@@ -1,8 +1,8 @@
-import pytest
+import pytest_twisted
 import twisted
 
 
-@pytest.inlineCallbacks
+@pytest_twisted.inlineCallbacks
 def test_example():
     expected = 42
 
