@@ -30,6 +30,7 @@ jobs:
               3.6: docker://python:3.6-buster
               3.7: docker://python:3.7-buster
               3.8: docker://python:3.8-buster
+              3.9: docker://python:3.8-buster
           - name: Windows
             runs-on: windows-latest
             python_platform: win32
@@ -53,11 +54,20 @@ jobs:
             tox: py38
             action: 3.8
             docker: 3.8
+          - name: CPython 3.9
+            tox: py39
+            action: 3.9
+            docker: 3.9
         wrapper:
           - name: PyQt5
             tox: pyqt5
           - name: PySide2
             tox: pyside2
+        exclude:
+          - python:
+              tox: py39
+            os:
+              python_platform: win32
     steps:
       - uses: actions/checkout@v2
       - name: Set up ${{ matrix.python.name }}
