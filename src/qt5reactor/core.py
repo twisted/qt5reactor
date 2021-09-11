@@ -118,9 +118,15 @@ except ImportError as e0:
             QCoreApplication, QEventLoop, QObject, QSocketNotifier, QTimer,
         )
     except ImportError as e1:
-        raise ImportError(
-            "Neither PyQt5 nor PySide2 installed.\nPyQt5: {}\nPySide2: {})".format(e0, e1)
-        )
+        try:
+            # try PySide6
+            from PySide6.QtCore import (
+                QCoreApplication, QEventLoop, QObject, QSocketNotifier, QTimer,
+            )
+        except ImportError as e2:
+            raise ImportError(
+                "Neither PyQt5, PySide2 nor PySide6 installed.\nPyQt5: {}\nPySide2: {}\nPySide6: {})".format(e0, e1, e2)
+            )
 
 from twisted.internet.error import ReactorAlreadyInstalledError
 from twisted.internet import posixbase
