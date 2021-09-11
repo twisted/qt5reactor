@@ -63,6 +63,8 @@ jobs:
             tox: pyqt5
           - name: PySide2
             tox: pyside2
+          - name: PySide6
+            tox: pyside6
         exclude:
           - python:
               tox: py39
