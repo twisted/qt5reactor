@@ -50,6 +50,9 @@ setup(
             #   https://github.com/pytest-dev/pytest-twisted/pull/107#issuecomment-643679361
             "pyside2 != 5.15.0",
         ],
+        "pyside6": [
+            "pyside6",
+        ],
         "test": [
             "coverage",
             "pytest",

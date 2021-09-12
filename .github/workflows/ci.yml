@@ -63,11 +63,17 @@ jobs:
             tox: pyqt5
           - name: PySide2
             tox: pyside2
+          - name: PySide6
+            tox: pyside6
         exclude:
           - python:
               tox: py39
             os:
               python_platform: win32
+          - python:
+              tox: py35
+            wrapper:
+              tox: pyside6
     steps:
       - uses: actions/checkout@v2
       - name: Set up ${{ matrix.python.name }}
