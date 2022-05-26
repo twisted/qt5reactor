@@ -23,7 +23,7 @@ pytest-twisted==1.12
 six==1.15.0
 toml==0.10.1
 tox==3.15.2
-Twisted==20.3.0; platform_system != "Windows" and platform_system != "Darwin"
+Twisted==22.4.0; platform_system != "Windows" and platform_system != "Darwin"
 Twisted[osx_platform]==20.3.0; platform_system == "Darwin"
 Twisted[windows_platform]==20.3.0; platform_system == "Windows"
 virtualenv==20.0.21
