@@ -12,6 +12,7 @@ on:
   schedule:
     # Daily at 05:47
     - cron: '47 5 * * *'
+  workflow_dispatch: {}
 
 jobs:
   test:
