@@ -14,6 +14,10 @@ on:
     - cron: '47 5 * * *'
   workflow_dispatch: {}
 
+concurrency:
+  group: ${{ github.ref }}-${{ github.workflow }}-${{ github.event_name }}-${{ github.event_name != 'pull_request' && github.sha || '' }}
+  cancel-in-progress: true
+
 jobs:
   test:
     name: ${{ matrix.os.name }} ${{ matrix.python.name }} ${{ matrix.wrapper.name }}
