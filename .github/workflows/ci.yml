@@ -80,9 +80,9 @@ jobs:
             tox: pyside2
         exclude:
           - python:
-              tox: py39
-            os:
-              python_platform: win32
+              tox: py311
+            wrapper:
+              tox: pyside2
     steps:
       - uses: actions/checkout@v2
       - name: Set up ${{ matrix.python.name }}
