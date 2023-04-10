@@ -104,7 +104,7 @@ jobs:
           apt-get install --yes libgl1
       - name: Install
         run: |
-          pip install tox
+          pip install 'tox<4'
       - name: Test
         run: |
           tox -v -e "${{ matrix.python.tox }}-${{ matrix.wrapper.tox }}"
