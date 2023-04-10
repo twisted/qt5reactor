@@ -31,11 +31,13 @@ jobs:
             runs-on: ubuntu-latest
             python_platform: linux
             container:
-              3.5: docker://python:3.5-buster
-              3.6: docker://python:3.6-buster
-              3.7: docker://python:3.7-buster
-              3.8: docker://python:3.8-buster
-              3.9: docker://python:3.9-buster
+              '3.5': docker://python:3.5-buster
+              '3.6': docker://python:3.6-buster
+              '3.7': docker://python:3.7-buster
+              '3.8': docker://python:3.8-buster
+              '3.9': docker://python:3.9-buster
+              '3.10': docker://python:3.10-buster
+              '3.11': docker://python:3.11-buster
           - name: Windows
             runs-on: windows-latest
             python_platform: win32
@@ -45,24 +47,32 @@ jobs:
         python:
           - name: CPython 3.5
             tox: py35
-            action: 3.5
-            docker: 3.5
+            action: '3.5'
+            docker: '3.5'
           - name: CPython 3.6
             tox: py36
-            action: 3.6
-            docker: 3.6
+            action: '3.6'
+            docker: '3.6'
           - name: CPython 3.7
             tox: py37
-            action: 3.7
-            docker: 3.7
+            action: '3.7'
+            docker: '3.7'
           - name: CPython 3.8
             tox: py38
-            action: 3.8
-            docker: 3.8
+            action: '3.8'
+            docker: '3.8'
           - name: CPython 3.9
             tox: py39
-            action: 3.9
-            docker: 3.9
+            action: '3.9'
+            docker: '3.9'
+          - name: CPython 3.10
+            tox: py310
+            action: '3.10'
+            docker: '3.10'
+          - name: CPython 3.11
+            tox: py311
+            action: '3.11'
+            docker: '3.11'
         wrapper:
           - name: PyQt5
             tox: pyqt5
