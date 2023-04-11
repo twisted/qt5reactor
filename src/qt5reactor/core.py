@@ -106,21 +106,53 @@ Subsequent port by therve
 
 import sys
 
+failures = {}
+found = False
+
 try:
     # try PyQt5
     from PyQt5.QtCore import (
         QCoreApplication, QEventLoop, QObject, QSocketNotifier, QTimer,
     )
-except ImportError as e0:
-    try:
-        # try PySide2
-        from PySide2.QtCore import (
-            QCoreApplication, QEventLoop, QObject, QSocketNotifier, QTimer,
-        )
-    except ImportError as e1:
-        raise ImportError(
-            "Neither PyQt5 nor PySide2 installed.\nPyQt5: {}\nPySide2: {})".format(e0, e1)
-        )
+except ImportError as e:
+    failures["PyQt5"] = e
+else:
+    found = True
+
+try:
+    # try PyQt6
+    from PyQt6.QtCore import (
+        QCoreApplication, QEventLoop, QObject, QSocketNotifier, QTimer,
+    )
+except ImportError as e:
+    failures["PyQt6"] = e
+else:
+    found = True
+
+try:
+    # try PySide2
+    from PySide2.QtCore import (
+        QCoreApplication, QEventLoop, QObject, QSocketNotifier, QTimer,
+    )
+except ImportError as e:
+    failures["PySide2"] = e
+else:
+    found = True
+
+try:
+    # try PySide6
+    from PySide6.QtCore import (
+        QCoreApplication, QEventLoop, QObject, QSocketNotifier, QTimer,
+    )
+except ImportError as e:
+    failures["PySide6"] = e
+else:
+    found = True
+
+if not found:
+    raise ImportError(
+        "No supported Qt wrapper found.\n{}".format("\n".join("{}: {}".format(k, v) for k, v in failures.items()))
+    )
 
 from twisted.internet.error import ReactorAlreadyInstalledError
 from twisted.internet import posixbase
@@ -143,7 +175,7 @@ class TwistedSocketNotifier(QObject):
         fd = watcher.fileno()
         self.notifier = QSocketNotifier(fd, socketType, parent)
         self.notifier.setEnabled(True)
-        if socketType == QSocketNotifier.Read:
+        if socketType == QSocketNotifier.Type.Read:
             self.fn = self.read
         else:
             self.fn = self.write
@@ -238,11 +270,11 @@ class QtReactor(posixbase.PosixReactorBase):
 
     def addReader(self, reader):
         """Add a FileDescriptor for notification of data available to read."""
-        self._add(reader, self._reads, QSocketNotifier.Read)
+        self._add(reader, self._reads, QSocketNotifier.Type.Read)
 
     def addWriter(self, writer):
         """Add a FileDescriptor for notification of data available to write."""
-        self._add(writer, self._writes, QSocketNotifier.Write)
+        self._add(writer, self._writes, QSocketNotifier.Type.Write)
 
     def _remove(self, xer, primary):
         """
@@ -318,7 +350,7 @@ class QtReactor(posixbase.PosixReactorBase):
         else:
             self._blockApp = QEventLoop()
         self.runReturn(installSignalHandlers=installSignalHandlers)
-        self._blockApp.exec_()
+        self._blockApp.exec()
         if self.running:
             self.stop()
             self.runUntilCurrent()
