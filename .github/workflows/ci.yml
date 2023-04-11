@@ -76,8 +76,12 @@ jobs:
         wrapper:
           - name: PyQt5
             tox: pyqt5
+          - name: PyQt6
+            tox: pyqt6
           - name: PySide2
             tox: pyside2
+          - name: PySide6
+            tox: pyside6
         exclude:
           - python:
               tox: py311
