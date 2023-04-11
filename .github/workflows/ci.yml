@@ -76,13 +76,29 @@ jobs:
         wrapper:
           - name: PyQt5
             tox: pyqt5
+            major: 5
+          - name: PyQt6
+            tox: pyqt6
+            major: 6
           - name: PySide2
             tox: pyside2
+            major: 5
+          - name: PySide6
+            tox: pyside6
+            major: 6
         exclude:
           - python:
               tox: py311
             wrapper:
               tox: pyside2
+          - python:
+              tox: py35
+            wrapper:
+              major: 6
+          - python:
+              tox: py36
+            wrapper:
+              major: 6
     steps:
       - uses: actions/checkout@v2
       - name: Set up ${{ matrix.python.name }}
