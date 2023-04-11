@@ -350,7 +350,13 @@ class QtReactor(posixbase.PosixReactorBase):
         else:
             self._blockApp = QEventLoop()
         self.runReturn(installSignalHandlers=installSignalHandlers)
-        self._blockApp.exec()
+
+        exec_method = getattr(self._blockApp, "exec", None)
+        if exec_method is None:
+            exec_method = self._blockApp.exec_
+
+        exec_method()
+
         if self.running:
             self.stop()
             self.runUntilCurrent()
