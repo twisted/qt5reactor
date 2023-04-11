@@ -20,6 +20,10 @@ classifiers = [
     'Programming Language :: Python :: 3.5',
     'Programming Language :: Python :: 3.6',
     'Programming Language :: Python :: 3.7',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
     'Natural Language :: English',
     'Topic :: Software Development :: Libraries :: Python Modules'
 ]
@@ -39,7 +43,10 @@ setup(
     package_dir={"": "src"},
     keywords=['Qt', 'twisted'],
     python_requires='>=3.5',
-    install_requires=['twisted'],
+    install_requires=[
+        'twisted',
+        'pywin32; sys_platform == "win32"',
+    ],
     extras_require={
         "pyqt5": [
             "pyqt5",
