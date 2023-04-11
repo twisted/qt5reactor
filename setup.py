@@ -43,7 +43,10 @@ setup(
     package_dir={"": "src"},
     keywords=['Qt', 'twisted'],
     python_requires='>=3.5',
-    install_requires=['twisted'],
+    install_requires=[
+        'twisted',
+        'pywin32; sys_platform == "win32"',
+    ],
     extras_require={
         "pyqt5": [
             "pyqt5",
